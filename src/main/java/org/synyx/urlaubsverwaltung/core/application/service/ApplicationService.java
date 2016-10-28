@@ -5,6 +5,7 @@ import org.joda.time.DateMidnight;
 import org.synyx.urlaubsverwaltung.core.application.domain.Application;
 import org.synyx.urlaubsverwaltung.core.application.domain.ApplicationStatus;
 import org.synyx.urlaubsverwaltung.core.person.Person;
+import org.synyx.urlaubsverwaltung.core.settings.AbsenceSettings;
 
 import java.math.BigDecimal;
 
@@ -89,6 +90,15 @@ public interface ApplicationService {
      */
     List<Application> getApplicationsForACertainPeriodAndPersonAndState(DateMidnight startDate, DateMidnight endDate,
         Person person, ApplicationStatus status);
+
+
+    /**
+     *
+     * @return all {@link Application}s with application state
+     * {@link ApplicationStatus#WAITING}
+     * and waiting for {@link AbsenceSettings#daysBeforeRemindForWaitingApplications}
+     */
+    List<Application> getAllLongWaitingApplications();
 
 
     /**

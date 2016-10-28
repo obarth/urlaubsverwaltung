@@ -70,12 +70,8 @@ public class CronMailService {
                 settingsService.getSettings().getAbsenceSettings().getRemindForWaitingApplications();
 
         if (isRemindForWaitingApplicationsActive) {
-            List<Application> allWaitingApplications =
-                    applicationService.getApplicationsForACertainState(ApplicationStatus.WAITING);
 
-            List<Application> longWaitingApplications = allWaitingApplications.stream()
-                    .filter(isLongWaitingApplications())
-                    .collect(Collectors.toList());
+            List<Application> longWaitingApplications = applicationService.getAllLongWaitingApplications();
 
             if (longWaitingApplications.size() > 0) {
                 LOG.info(String.format("%d long waiting applications found. Sending Notification...", longWaitingApplications.size()));
@@ -96,26 +92,4 @@ public class CronMailService {
 
     }
 
-    private Predicate<Application> isLongWaitingApplications() {
-        return application -> {
-
-            DateMidnight remindDate = application.getRemindDate();
-            if (remindDate == null) {
-                Integer daysBeforeRemindForWaitingApplications =
-                        settingsService.getSettings().getAbsenceSettings().getDaysBeforeRemindForWaitingApplications();
-
-                // never reminded before
-                DateMidnight minDateForNotification = application.getApplicationDate()
-                        .plusDays(daysBeforeRemindForWaitingApplications);
-
-                // true -> remind!
-                // false -> to early for notification
-                return minDateForNotification.isBeforeNow();
-            } else {
-                // true -> not reminded today
-                // false -> already reminded today
-                return !remindDate.isEqual(DateMidnight.now());
-            }
-        };
-    }
 }

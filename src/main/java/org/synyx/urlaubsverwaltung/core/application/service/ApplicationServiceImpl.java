@@ -13,11 +13,14 @@ import org.synyx.urlaubsverwaltung.core.application.dao.ApplicationDAO;
 import org.synyx.urlaubsverwaltung.core.application.domain.Application;
 import org.synyx.urlaubsverwaltung.core.application.domain.ApplicationStatus;
 import org.synyx.urlaubsverwaltung.core.person.Person;
+import org.synyx.urlaubsverwaltung.core.settings.SettingsService;
 
 import java.math.BigDecimal;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 /**
@@ -29,11 +32,14 @@ import java.util.Optional;
 class ApplicationServiceImpl implements ApplicationService {
 
     private final ApplicationDAO applicationDAO;
+    private final SettingsService settingsService;
 
     @Autowired
-    ApplicationServiceImpl(ApplicationDAO applicationDAO) {
+    ApplicationServiceImpl(ApplicationDAO applicationDAO,
+                           SettingsService settingsService) {
 
         this.applicationDAO = applicationDAO;
+        this.settingsService = settingsService;
     }
 
     @Override
@@ -79,6 +85,41 @@ class ApplicationServiceImpl implements ApplicationService {
 
         return applicationDAO.getApplicationsForACertainTimeAndPersonAndState(startDate.toDate(), endDate.toDate(),
                 person, status);
+    }
+
+    @Override
+    public List<Application> getAllLongWaitingApplications() {
+
+        List<Application> allWaitingApplications = this.getApplicationsForACertainState(ApplicationStatus.WAITING);
+
+        List<Application> longWaitingApplications = allWaitingApplications.stream()
+                .filter(isLongWaitingApplications())
+                .collect(Collectors.toList());
+
+        return longWaitingApplications;
+    }
+
+    private Predicate<Application> isLongWaitingApplications() {
+        return application -> {
+
+            DateMidnight remindDate = application.getRemindDate();
+            if (remindDate == null) {
+                Integer daysBeforeRemindForWaitingApplications =
+                        settingsService.getSettings().getAbsenceSettings().getDaysBeforeRemindForWaitingApplications();
+
+                // never reminded before
+                DateMidnight minDateForNotification = application.getApplicationDate()
+                        .plusDays(daysBeforeRemindForWaitingApplications);
+
+                // true -> remind!
+                // false -> to early for notification
+                return minDateForNotification.isBeforeNow();
+            } else {
+                // true -> not reminded today
+                // false -> already reminded today
+                return !remindDate.isEqual(DateMidnight.now());
+            }
+        };
     }
 
 

@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.synyx.urlaubsverwaltung.core.application.dao.ApplicationDAO;
 import org.synyx.urlaubsverwaltung.core.application.domain.Application;
 import org.synyx.urlaubsverwaltung.core.person.Person;
+import org.synyx.urlaubsverwaltung.core.settings.SettingsService;
 import org.synyx.urlaubsverwaltung.test.TestDataCreator;
 
 import java.math.BigDecimal;
@@ -29,12 +30,14 @@ public class ApplicationServiceImplTest {
 
     private ApplicationService applicationService;
     private ApplicationDAO applicationDAO;
+    private SettingsService settingsService;
 
     @Before
     public void setUp() {
 
         applicationDAO = Mockito.mock(ApplicationDAO.class);
-        applicationService = new ApplicationServiceImpl(applicationDAO);
+        settingsService = Mockito.mock(SettingsService.class);
+        applicationService = new ApplicationServiceImpl(applicationDAO, settingsService);
     }
 
 
@@ -109,4 +112,6 @@ public class ApplicationServiceImplTest {
         Assert.assertNotNull("Should not be null", totalHours);
         Assert.assertEquals("Wrong total overtime reduction", BigDecimal.ONE, totalHours);
     }
+
+    //TODO Add test
 }

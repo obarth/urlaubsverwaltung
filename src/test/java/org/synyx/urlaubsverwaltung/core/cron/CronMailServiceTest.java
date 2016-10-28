@@ -106,7 +106,8 @@ public class CronMailServiceTest {
                                                               longWaitingApplicationAlreadyRemindedToday,
                                                               longWaitingApplicationAlreadyRemindedEalier);
 
-        when(applicationService.getApplicationsForACertainState(ApplicationStatus.WAITING)).thenReturn(waitingApplications);
+        // TODO
+        when(applicationService.getAllLongWaitingApplications()).thenReturn(waitingApplications/* return list of long waiting applications */);
 
         sut.sendWaitingApplicationsReminderNotification();
 
