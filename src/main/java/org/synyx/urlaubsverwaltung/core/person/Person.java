@@ -43,6 +43,8 @@ public class Person extends AbstractPersistable<Integer> {
 
     private String email;
 
+    private String pnumber;
+    
     // private key of person - RSA
     // private key has to be saved as byte[] in database
     // when retrieved from database, byte[] have to be transformed back to private key
@@ -70,13 +72,26 @@ public class Person extends AbstractPersistable<Integer> {
     }
 
 
-    public Person(String loginName, String lastName, String firstName, String email) {
+    public Person(String loginName, String lastName, String firstName, String email, String pnumber) {
 
         this.loginName = loginName;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
+        this.pnumber = pnumber ;
     }
+
+    public String getPnumber() {
+
+        return pnumber;
+    }
+
+
+    public void setPnumber(String pnumber) {
+
+        this.pnumber = pnumber;
+    }
+
 
     public String getEmail() {
 

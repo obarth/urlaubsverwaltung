@@ -25,7 +25,7 @@ public interface PersonService {
      *
      * @return  created person
      */
-    Person create(String loginName, String lastName, String firstName, String email,
+    Person create(String loginName, String lastName, String firstName, String email, String pnumber,
         List<MailNotification> notifications, List<Role> permissions);
 
 

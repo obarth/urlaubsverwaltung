@@ -42,14 +42,14 @@ public class LdapSyncServiceTest {
         Person person = TestDataCreator.createPerson();
 
         Mockito.when(personService.create(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                    Mockito.anyString(), Mockito.anyListOf(MailNotification.class), Mockito.anyListOf(Role.class)))
+        		Mockito.anyString(), Mockito.anyString(), Mockito.anyListOf(MailNotification.class), Mockito.anyListOf(Role.class)))
             .thenReturn(person);
 
         ldapSyncService.createPerson("murygina", Optional.of("Aljona"), Optional.of("Murygina"),
             Optional.of("murygina@synyx.de"));
 
         Mockito.verify(personService)
-            .create("murygina", "Murygina", "Aljona", "murygina@synyx.de",
+            .create("murygina", "Murygina", "Aljona", "murygina@synyx.de", "PN0000",
                 Collections.singletonList(MailNotification.NOTIFICATION_USER), Collections.singletonList(Role.USER));
     }
 
@@ -60,13 +60,13 @@ public class LdapSyncServiceTest {
         Person person = TestDataCreator.createPerson();
 
         Mockito.when(personService.create(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
-                    Mockito.anyString(), Mockito.anyListOf(MailNotification.class), Mockito.anyListOf(Role.class)))
+                    Mockito.anyString(), Mockito.anyString(), Mockito.anyListOf(MailNotification.class), Mockito.anyListOf(Role.class)))
             .thenReturn(person);
 
         ldapSyncService.createPerson("murygina", Optional.empty(), Optional.empty(), Optional.empty());
 
         Mockito.verify(personService)
-            .create("murygina", null, null, null, Collections.singletonList(MailNotification.NOTIFICATION_USER),
+            .create("murygina", null, null, null, null, Collections.singletonList(MailNotification.NOTIFICATION_USER),
                 Collections.singletonList(Role.USER));
     }
 
@@ -82,7 +82,7 @@ public class LdapSyncServiceTest {
     @Test
     public void ensureSyncedPersonHasCorrectAttributes() {
 
-        Person person = TestDataCreator.createPerson("muster", "Marlene", "Muster", "marlene@muster.de");
+        Person person = TestDataCreator.createPerson("muster", "Marlene", "Muster", "marlene@firma.test", "PN0000");
 
         Person syncedPerson = ldapSyncService.syncPerson(person, Optional.of("Aljona"), Optional.of("Murygina"),
                 Optional.of("murygina@synyx.de"));
@@ -104,7 +104,7 @@ public class LdapSyncServiceTest {
     @Test
     public void ensureSyncDoesNotEmptyAttributes() {
 
-        Person person = TestDataCreator.createPerson("muster", "Marlene", "Muster", "marlene@muster.de");
+        Person person = TestDataCreator.createPerson("muster", "Marlene", "Muster", "marlene@firma.test", "PN0000");
 
         Person syncedPerson = ldapSyncService.syncPerson(person, Optional.empty(), Optional.empty(), Optional.empty());
 

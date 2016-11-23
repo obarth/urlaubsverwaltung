@@ -17,6 +17,9 @@ public class ExchangeCalendarSettings {
     @Column(name = "calendar_ews_active")
     private boolean active = false;
 
+    @Column(name = "calendar_ews_pnumber")
+    private String pnumber;
+
     @Column(name = "calendar_ews_email")
     private String email;
 
@@ -41,7 +44,11 @@ public class ExchangeCalendarSettings {
     }
 
 
-    public String getEmail() {
+	public String getPnumber() {
+		return pnumber;
+	}
+
+	public String getEmail() {
 
         return email;
     }

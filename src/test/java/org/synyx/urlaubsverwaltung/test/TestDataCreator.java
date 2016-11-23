@@ -67,7 +67,7 @@ public final class TestDataCreator {
 
         String name = StringUtils.capitalizeFirstLetter(username);
 
-        return TestDataCreator.createPerson(username, name, name, username + "@test.de");
+        return TestDataCreator.createPerson(username, name, name, username + "@test.de", "PN0000");
     }
 
 
@@ -75,7 +75,7 @@ public final class TestDataCreator {
 
         String name = StringUtils.capitalizeFirstLetter(username);
 
-        Person person = TestDataCreator.createPerson(username, name, name, username + "@test.de");
+        Person person = TestDataCreator.createPerson(username, name, name, username + "@test.de", "PN0000");
 
         person.setPermissions(Arrays.asList(roles));
 
@@ -85,13 +85,13 @@ public final class TestDataCreator {
 
     public static Person createPerson() {
 
-        return TestDataCreator.createPerson("muster", "Marlene", "Muster", "muster@test.de");
+        return TestDataCreator.createPerson("muster", "Marlene", "Muster", "muster@test.de", "PN0000");
     }
 
 
-    public static Person createPerson(String username, String firstName, String lastName, String email) {
+    public static Person createPerson(String username, String firstName, String lastName, String email, String pnumber) {
 
-        Person person = new Person(username, lastName, firstName, email);
+        Person person = new Person(username, lastName, firstName, email, pnumber);
         person.setPermissions(Collections.singletonList(Role.USER));
         person.setNotifications(Collections.singletonList(MailNotification.NOTIFICATION_USER));
 

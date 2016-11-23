@@ -211,7 +211,19 @@ public class SettingsValidator implements Validator {
     }
 
 
-    private void validateMailPort(MailSettings mailSettings, Errors errors) {
+    private void validateMandatoryPnumber(String input, String attributeName, Errors errors) {
+
+        if (!StringUtils.hasText(input)) {
+            errors.rejectValue(attributeName, ERROR_MANDATORY_FIELD);
+        } else {
+            if (!validStringLength(input)) {
+                errors.rejectValue(attributeName, ERROR_LENGTH);
+            }
+        }
+    }
+
+
+   private void validateMailPort(MailSettings mailSettings, Errors errors) {
 
         String portAttribute = "mailSettings.port";
         Integer port = mailSettings.getPort();
@@ -345,6 +357,15 @@ public class SettingsValidator implements Validator {
             validateExchangePassword(exchangeCalendarSettings, errors);
             validateExchangeCalendarName(exchangeCalendarSettings, errors);
         }
+    }
+
+
+    private void validateExchangePnumber(ExchangeCalendarSettings exchangeCalendarSettings, Errors errors) {
+
+        String pnumberAttribute = "calendarSettings.exchangeCalendarSettings.pnumber";
+        String pnumber = exchangeCalendarSettings.getPnumber();
+
+        validateMandatoryPnumber(pnumber, pnumberAttribute, errors);
     }
 
 

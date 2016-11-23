@@ -38,10 +38,10 @@ class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person create(String loginName, String lastName, String firstName, String email,
+    public Person create(String loginName, String lastName, String firstName, String email, String pnumber,
         List<MailNotification> notifications, List<Role> permissions) {
 
-        Person person = new Person(loginName, lastName, firstName, email);
+        Person person = new Person(loginName, lastName, firstName, email, pnumber);
 
         person.setNotifications(notifications);
         person.setPermissions(permissions);

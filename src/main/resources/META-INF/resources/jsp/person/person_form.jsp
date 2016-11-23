@@ -103,6 +103,18 @@
                 <span class="help-inline"><form:errors path="email" cssClass="error"/></span>
             </div>
         </div>
+
+        <div class="form-group is-required">
+            <label class="control-label col-md-3" for="pnumber">
+                <spring:message code="person.form.data.pnumber"/>:
+            </label>
+
+            <div class="col-md-9">
+                <form:input id="pnumber" path="pnumber" class="form-control" cssErrorClass="form-control error" />
+                <span class="help-inline"><form:errors path="pnumber" cssClass="error"/></span>
+            </div>
+        </div>
+
     </div>
 
 </div>

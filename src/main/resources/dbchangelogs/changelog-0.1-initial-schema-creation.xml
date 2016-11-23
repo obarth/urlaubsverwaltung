@@ -21,6 +21,7 @@
             <column name="active" type="BIT(1)">
                 <constraints nullable="false"/>
             </column>
+            <column name="pnumber" type="VARCHAR(255)"/>
             <column name="email" type="VARCHAR(255)"/>
             <column name="firstName" type="VARCHAR(255)"/>
             <column name="lastName" type="VARCHAR(255)"/>

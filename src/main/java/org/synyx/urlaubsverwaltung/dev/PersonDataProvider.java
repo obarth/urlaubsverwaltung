@@ -50,13 +50,13 @@ class PersonDataProvider {
         this.accountInteractionService = accountInteractionService;
     }
 
-    Person createTestPerson(String login, String password, String firstName, String lastName, String email,
+    Person createTestPerson(String login, String password, String firstName, String lastName, String email, String pnumber,
         Role... roles) throws NoSuchAlgorithmException {
 
         List<Role> permissions = Arrays.asList(roles);
         List<MailNotification> notifications = getNotificationsForRoles(permissions);
 
-        Person person = personService.create(login, lastName, firstName, email, notifications, permissions);
+        Person person = personService.create(login, lastName, firstName, email, pnumber, notifications, permissions);
 
         // workaround for non generated password
         person.setPassword(CryptoUtil.encodePassword(password));

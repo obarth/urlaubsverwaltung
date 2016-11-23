@@ -110,9 +110,9 @@ public class MailServiceImplTest {
     @Test
     public void ensureMailIsSentToAllRecipientsThatHaveAnEmailAddress() {
 
-        Person person = TestDataCreator.createPerson("muster", "Max", "Mustermann", "max@muster.de");
-        Person anotherPerson = TestDataCreator.createPerson("mmuster", "Marlene", "Muster", "max@muster.de");
-        Person personWithoutMailAddress = TestDataCreator.createPerson("nomail", "No", "Mail", null);
+        Person person = TestDataCreator.createPerson("muster", "Max", "Mustermann", "max@firma.test", "PN0000");
+        Person anotherPerson = TestDataCreator.createPerson("mmuster", "Marlene", "Muster", "max@firma.test", "PN0000");
+        Person personWithoutMailAddress = TestDataCreator.createPerson("nomail", "No", "Mail", null, "PN0000");
 
         ArgumentCaptor<SimpleMailMessage> mailMessageArgumentCaptor = ArgumentCaptor.forClass(SimpleMailMessage.class);
 

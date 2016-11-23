@@ -13,6 +13,7 @@
             <column name="calendar_workDayBeginHour" type="INT(2)"/>
             <column name="calendar_workDayEndHour" type="INT(2)"/>
             <column name="calendar_ews_active" type="BIT(1)"/>
+            <column name="calendar_ews_pnumber" type="VARCHAR(255)"/>
             <column name="calendar_ews_email" type="VARCHAR(255)"/>
             <column name="calendar_ews_password" type="VARCHAR(255)"/>
             <column name="calendar_ews_calendar" type="VARCHAR(255)"/>

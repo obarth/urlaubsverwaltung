@@ -85,7 +85,7 @@ public class LdapSyncService {
         Assert.notNull(login, "Missing login name!");
 
         Person person = personService.create(login, lastName.orElse(null), firstName.orElse(null),
-                mailAddress.orElse(null), Collections.singletonList(MailNotification.NOTIFICATION_USER),
+                mailAddress.orElse(null), "PN0000", Collections.singletonList(MailNotification.NOTIFICATION_USER),
                 Collections.singletonList(Role.USER));
 
         LOG.info("Successfully auto-created person: " + person.toString());

@@ -16,7 +16,7 @@ public class PersonTest {
     @Test
     public void ensureReturnsFirstAndLastNameAsNiceName() {
 
-        Person person = new Person("muster", "Muster", "Max", "");
+        Person person = new Person("muster", "Muster", "Max", "", "PN0000");
 
         Assert.assertEquals("Wrong nice name", "Max Muster", person.getNiceName());
     }
@@ -25,7 +25,7 @@ public class PersonTest {
     @Test
     public void ensureReturnsLoginNameAsNiceNameIfFirstAndLastNameAreNotSet() {
 
-        Person person = new Person("muster", "", "", "");
+        Person person = new Person("muster", "", "", "", "PN0000");
 
         Assert.assertEquals("Wrong nice name", "muster", person.getNiceName());
     }

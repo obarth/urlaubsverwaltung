@@ -94,7 +94,7 @@ public class MailServiceIntegrationTest {
                 settingsService);
 
 
-        person = TestDataCreator.createPerson("user", "Lieschen", "Müller", "lieschen@muster.de");
+        person = TestDataCreator.createPerson("user", "Lieschen", "Müller", "lieschen@firma.test", "PN0000");
 
         application = createApplication(person);
 
@@ -104,14 +104,14 @@ public class MailServiceIntegrationTest {
         Mockito.when(settingsService.getSettings()).thenReturn(settings);
 
         // BOSS
-        boss = TestDataCreator.createPerson("boss", "Hugo", "Boss", "boss@muster.de");
+        boss = TestDataCreator.createPerson("boss", "Hugo", "Boss", "boss@firma.test", "PN0000");
         boss.setPermissions(Collections.singletonList(Role.BOSS));
 
         Mockito.when(personService.getPersonsWithNotificationType(MailNotification.NOTIFICATION_BOSS))
             .thenReturn(Collections.singletonList(boss));
 
         // DEPARTMENT HEAD
-        departmentHead = TestDataCreator.createPerson("head", "Michel", "Mustermann", "head@muster.de");
+        departmentHead = TestDataCreator.createPerson("head", "Michel", "Mustermann", "head@firma.test", "PN0000");
         departmentHead.setPermissions(Collections.singletonList(Role.DEPARTMENT_HEAD));
 
         Mockito.when(personService.getPersonsWithNotificationType(MailNotification.NOTIFICATION_DEPARTMENT_HEAD))
@@ -121,7 +121,7 @@ public class MailServiceIntegrationTest {
             .thenReturn(true);
 
         // SECOND STAGE AUTHORITY
-        secondStage = TestDataCreator.createPerson("manager", "Kai", "Schmitt", "manager@muster.de");
+        secondStage = TestDataCreator.createPerson("manager", "Kai", "Schmitt", "manager@firma.test", "PN0000");
         secondStage.setPermissions(Collections.singletonList(Role.SECOND_STAGE_AUTHORITY));
 
         Mockito.when(personService.getPersonsWithNotificationType(MailNotification.NOTIFICATION_SECOND_STAGE_AUTHORITY))
@@ -132,7 +132,7 @@ public class MailServiceIntegrationTest {
             .thenReturn(true);
 
         // OFFICE
-        office = TestDataCreator.createPerson("office", "Marlene", "Muster", "office@muster.de");
+        office = TestDataCreator.createPerson("office", "Marlene", "Muster", "office@firma.test", "PN0000");
         office.setPermissions(Collections.singletonList(Role.OFFICE));
 
         Mockito.when(personService.getPersonsWithNotificationType(MailNotification.NOTIFICATION_OFFICE))
@@ -272,12 +272,12 @@ public class MailServiceIntegrationTest {
     public void ensureNotificationAboutNewApplicationContainsInformationAboutDepartmentVacations()
         throws MessagingException, IOException {
 
-        Person departmentMember = TestDataCreator.createPerson("muster", "Marlene", "Muster", "mmuster@foo.de");
+        Person departmentMember = TestDataCreator.createPerson("muster", "Marlene", "Muster", "mmuster@foo.de", "PN0000");
         Application departmentApplication = TestDataCreator.createApplication(departmentMember,
                 TestDataCreator.createVacationType(VacationCategory.HOLIDAY), new DateMidnight(2015, 11, 5),
                 new DateMidnight(2015, 11, 6), DayLength.FULL);
 
-        Person otherDepartmentMember = TestDataCreator.createPerson("schmidt", "Niko", "Schmidt", "nschmidt@foo.de");
+        Person otherDepartmentMember = TestDataCreator.createPerson("schmidt", "Niko", "Schmidt", "nschmidt@foo.de", "PN0000");
         Application otherDepartmentApplication = TestDataCreator.createApplication(otherDepartmentMember,
                 TestDataCreator.createVacationType(VacationCategory.HOLIDAY), new DateMidnight(2015, 11, 4),
                 new DateMidnight(2015, 11, 4), DayLength.MORNING);
@@ -569,15 +569,15 @@ public class MailServiceIntegrationTest {
 
         Account accountOne = new Account();
         accountOne.setRemainingVacationDays(new BigDecimal("3"));
-        accountOne.setPerson(TestDataCreator.createPerson("muster", "Marlene", "Muster", "marlene@muster.de"));
+        accountOne.setPerson(TestDataCreator.createPerson("muster", "Marlene", "Muster", "marlene@firma.test", "PN0000"));
 
         Account accountTwo = new Account();
         accountTwo.setRemainingVacationDays(new BigDecimal("5.5"));
-        accountTwo.setPerson(TestDataCreator.createPerson("mustermann", "Max", "Mustermann", "max@mustermann.de"));
+        accountTwo.setPerson(TestDataCreator.createPerson("mustermann", "Max", "Mustermann", "max@mustermann.de", "PN0000"));
 
         Account accountThree = new Account();
         accountThree.setRemainingVacationDays(new BigDecimal("-1"));
-        accountThree.setPerson(TestDataCreator.createPerson("dings", "Horst", "Dings", "horst@dings.de"));
+        accountThree.setPerson(TestDataCreator.createPerson("dings", "Horst", "Dings", "horst@dings.de", "PN0000"));
 
         mailService.sendSuccessfullyUpdatedAccountsNotification(Arrays.asList(accountOne, accountTwo, accountThree));
 
@@ -604,7 +604,7 @@ public class MailServiceIntegrationTest {
     public void ensureCorrectHolidayReplacementMailIsSent() throws MessagingException, IOException {
 
         Person holidayReplacement = TestDataCreator.createPerson("replacement", "Mar", "Teria",
-                "replacement@muster.de");
+                "replacement@firma.test", "PN0000");
         application.setHolidayReplacement(holidayReplacement);
 
         mailService.notifyHolidayReplacement(application);
@@ -721,7 +721,7 @@ public class MailServiceIntegrationTest {
     @Test
     public void ensureThatSendUserCreationNotification() throws MessagingException, IOException {
 
-        Person user = TestDataCreator.createPerson("neuer", "Manuel", "Neuer", "neuer@test.de");
+        Person user = TestDataCreator.createPerson("neuer", "Manuel", "Neuer", "neuer@test.de", "PN0000");
         String rawPassword = "secret";
 
         mailService.sendUserCreationNotification(user, rawPassword);
@@ -775,8 +775,8 @@ public class MailServiceIntegrationTest {
     @Test
     public void ensureCorrectReferMail() throws MessagingException, IOException {
 
-        Person recipient = TestDataCreator.createPerson("recipient", "Max", "Muster", "mustermann@test.de");
-        Person sender = TestDataCreator.createPerson("sender", "Rick", "Grimes", "rick@grimes.com");
+        Person recipient = TestDataCreator.createPerson("recipient", "Max", "Muster", "mustermann@test.de", "PN0000");
+        Person sender = TestDataCreator.createPerson("sender", "Rick", "Grimes", "rick@grimes.com", "PN0000");
 
         mailService.sendReferApplicationNotification(application, recipient, sender);
 
@@ -841,8 +841,8 @@ public class MailServiceIntegrationTest {
         Application applicationC = createApplication(personDepartmentC);
 
         // DEPARTMENT HEADs
-        Person departmentHeadAC = TestDataCreator.createPerson("headAC", "Heinz", "Wurst", "headAC@muster.de");
-        Person departmentHeadB = TestDataCreator.createPerson("headB", "Michel", "Mustermann", "headB@muster.de");
+        Person departmentHeadA = TestDataCreator.createPerson("headAC", "Heinz", "Wurst", "headAC@firma.test", "PN0000");
+        Person departmentHeadB = TestDataCreator.createPerson("headB", "Michel", "Mustermann", "headB@firma.test", "PN0000");
 
         Mockito.when(personService.getPersonsWithNotificationType(MailNotification.NOTIFICATION_DEPARTMENT_HEAD))
                 .thenReturn(Arrays.asList(departmentHeadAC, departmentHeadB));

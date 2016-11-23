@@ -10,6 +10,8 @@ class PersonResponse {
 
     private String ldapName;
 
+    private String pnumber;
+
     private String email;
 
     private String firstName;
@@ -21,6 +23,7 @@ class PersonResponse {
     PersonResponse(Person person) {
 
         this.ldapName = person.getLoginName();
+        this.pnumber = person.getPnumber();
         this.email = person.getEmail();
         this.firstName = person.getFirstName();
         this.lastName = person.getLastName();
@@ -36,6 +39,12 @@ class PersonResponse {
     public void setLdapName(String ldapName) {
 
         this.ldapName = ldapName;
+    }
+
+
+    public String getPnumber() {
+
+        return pnumber;
     }
 
 

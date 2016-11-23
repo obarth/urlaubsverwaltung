@@ -49,7 +49,7 @@ public class PersonServiceImplTest {
     @Test
     public void ensureCreatedPersonHasCorrectAttributes() {
 
-        Person person = new Person("rick", "Grimes", "Rick", "rick@grimes.de");
+        Person person = new Person("rick", "Grimes", "Rick", "rick@grimes.de", "PN0000");
         person.setPermissions(Arrays.asList(Role.USER, Role.BOSS));
         person.setNotifications(Arrays.asList(MailNotification.NOTIFICATION_USER, MailNotification.NOTIFICATION_BOSS));
 
@@ -86,7 +86,7 @@ public class PersonServiceImplTest {
     @Test
     public void ensureGeneratesKeyPairOnCreationOfPerson() throws Exception {
 
-        Person person = TestDataCreator.createPerson("rick", "Rick", "Grimes", "rick@grimes.de");
+        Person person = TestDataCreator.createPerson("rick", "Rick", "Grimes", "rick@grimes.de", "PN0000");
 
         Person createdPerson = sut.create(person);
 
